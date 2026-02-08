@@ -36,6 +36,7 @@ def dashboard_view(request):
         lista_eventos = list(col_eventos.find())
         mapa_eventos = {str(e['_id']): e['nombre'] for e in lista_eventos if 'nombre' in e}
         
+        # Si Mongo no tiene los nombres, usamos tu diccionario de respaldo
         if not mapa_eventos:
             mapa_eventos = {
                 "697b59db58e6c79ef92c4915": "Computación",
