@@ -36,7 +36,6 @@ def dashboard_view(request):
         lista_eventos = list(col_eventos.find())
         mapa_eventos = {str(e['_id']): e['nombre'] for e in lista_eventos if 'nombre' in e}
         
-        # Si Mongo no tiene los nombres, usamos tu diccionario de respaldo
         if not mapa_eventos:
             mapa_eventos = {
                 "697b59db58e6c79ef92c4915": "Computación",
@@ -62,7 +61,6 @@ def dashboard_view(request):
         }
 
         # --- 4. VISUALIZACIÓN (GENERAR IMÁGENES) ---
-        # Configuración estilo oscuro para Matplotlib
         plt.style.use('dark_background')
         params = {
             "axes.facecolor": "#0f172a", # Slate 900
