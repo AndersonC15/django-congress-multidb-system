@@ -11,7 +11,7 @@ import matplotlib
 matplotlib.use('Agg') 
 
 def dashboard_view(request):
-    # --- 1. CONEXIÓN A MONGO ---
+    # 1. CONEXIÓN A MONGO 
     client = MongoClient('mongodb://localhost:27017/')
     db = client['sistema_academico']
     collection = db['inscripciones_evento']
@@ -26,7 +26,7 @@ def dashboard_view(request):
     }
 
     if not df.empty:
-        # --- 2. LIMPIEZA Y TRANSFORMACIÓN ---
+        # 2. LIMPIEZA Y TRANSFORMACIÓN
         df['fecha_inscripcion'] = pd.to_datetime(df['fecha_inscripcion'])
         df['Fecha'] = df['fecha_inscripcion'].dt.date
         df['evento_id_str'] = df['evento_id'].astype(str)
@@ -48,7 +48,7 @@ def dashboard_view(request):
             
         df['Nombre_Evento'] = df['evento_id_str'].map(mapa_eventos).fillna(df['evento_id_str'])
 
-        # --- 3. KPIs GENERALES ---
+        # 3. KPIs GENERALES 
         total_inscritos = len(df)
         total_asistieron = df['asistio'].sum()
         tasa_global = (total_asistieron / total_inscritos) * 100 if total_inscritos > 0 else 0
@@ -61,7 +61,7 @@ def dashboard_view(request):
             'ausentismo': round(ausentismo, 2)
         }
 
-        # --- 4. VISUALIZACIÓN (GENERAR IMÁGENES) ---
+        # 4. VISUALIZACIÓN (GENERAR IMÁGENES) 
         plt.style.use('dark_background')
         params = {
             "axes.facecolor": "#0f172a", # Slate 900
@@ -111,8 +111,7 @@ def dashboard_view(request):
         grafica_tasa = get_graph()
 
 
-        # --- 5. PREPARACIÓN DE TABLAS (Convertir a diccionarios para el HTML) ---
-        
+        #  5. PREPARACIÓN DE TABLAS (Convertir a diccionarios para el HTML) 
         # TABLA 1: PIVOTE DETALLADA
         pivot = df.pivot_table(index='Nombre_Evento', columns='asistio', values='cedula', aggfunc='count', fill_value=0)
         if True not in pivot.columns: pivot[True] = 0
