@@ -21,13 +21,9 @@ from django.shortcuts import redirect  # <--- ¡AGREGA ESTA LÍNEA!
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # Aquí definimos que todo lo de ws1 empieza con "eventos/"
-    path("eventos/", include("ws1.urls")), 
-    
-    # AGREGA ESTA LÍNEA: Aquí definimos que todo lo de ws empieza con "ws/"
-    path("ws/", include("ws.urls")),
 
-    #Agregamos para la nueva app de analítica, que va a empezar con analitica/
+    path("eventos/", include("ws1.urls")),     
+    path("ws/", include("ws.urls")),
     path("analitica/", include("analitica.urls")),
 
     path('', lambda request: redirect('/analitica/dashboard/')),
